@@ -2,6 +2,7 @@
 import Searchbar from "./components/Searchbar.vue";
 import Main from "./components/Main.vue";
 import { store } from "./data/store";
+import axios from "axios";
 
 export default {
   components: {
@@ -13,11 +14,28 @@ export default {
       store,
     };
   },
+  methods: {
+    getApis() {
+      axios
+        .get(this.store.apiUrlMovie, {
+          params: {
+            api_key: this.store.apiKey,
+            query: this.store.movieToSearch,
+          },
+        })
+        .then((result) => {
+          this.store.moviesList = result.data.results;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
 };
 </script>
 
 <template>
-  <Searchbar />
+  <Searchbar @searchMovie="getApis" />
   <Main />
 </template>
 
