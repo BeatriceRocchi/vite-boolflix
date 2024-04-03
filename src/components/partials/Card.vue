@@ -1,7 +1,18 @@
 <script>
 export default {
+  data() {
+    return {
+      isImgLoaded: true,
+    };
+  },
   props: {
     movieObject: Object,
+  },
+  methods: {
+    getImagePath(image) {
+      return new URL(`../../assets/img-flags/${image}.svg`, import.meta.url)
+        .href;
+    },
   },
 };
 </script>
@@ -13,7 +24,15 @@ export default {
       <h6 class="card-subtitle mb-2 text-body-secondary">
         {{ movieObject.original_title }}
       </h6>
-      <div class="card-text">{{ movieObject.original_language }}</div>
+      <div v-if="isImgLoaded">
+        <img
+          class="flag_box"
+          :src="getImagePath(movieObject.original_language)"
+          @error="isImgLoaded = false"
+        />
+      </div>
+
+      <div v-else>{{ movieObject.original_language }}</div>
       <div class="card-text">{{ movieObject.vote_average }}</div>
     </div>
   </div>
@@ -27,5 +46,10 @@ export default {
   width: 200px;
   height: 300px;
   margin: 15px;
+
+  .flag_box {
+    height: 20px;
+    border-radius: 2px;
+  }
 }
 </style>
