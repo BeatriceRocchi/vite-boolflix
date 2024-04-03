@@ -17,11 +17,21 @@ export default {
 <template>
   <main>
     <div class="container container_custom">
+      <h3>Film</h3>
       <div class="card_wrapper d-flex flex-wrap justify-content-around">
         <Card
           v-for="movie in store.moviesList"
           :key="movie.id"
           :movieObject="movie"
+        />
+      </div>
+
+      <h3>Serie TV</h3>
+      <div class="card_wrapper d-flex flex-wrap justify-content-around">
+        <Card
+          v-for="serie in store.seriesTVList"
+          :key="serie.id"
+          :movieObject="serie"
         />
       </div>
     </div>
@@ -38,6 +48,7 @@ main {
 
   .container_custom {
     width: 95%;
+    padding: 30px 0;
   }
 }
 </style>
