@@ -1,11 +1,11 @@
 <script>
-import Header from "./components/Header.vue";
+import Searchbar from "./components/Searchbar.vue";
 import Main from "./components/Main.vue";
 import { store } from "./data/store";
 
 export default {
   components: {
-    Header,
+    Searchbar,
     Main,
   },
   data() {
@@ -17,7 +17,7 @@ export default {
 </script>
 
 <template>
-  <Header />
+  <Searchbar />
   <Main />
 </template>
 

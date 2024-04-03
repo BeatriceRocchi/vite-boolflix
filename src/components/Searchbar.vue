@@ -10,15 +10,15 @@ export default {
 </script>
 
 <template>
-  <main>Main</main>
+  <div id="searchbar">Searchbar</div>
 </template>
 
 <style lang="scss" scoped>
 @import "../assets/scss/partials/variables";
-
-main {
-  background-color: lighten($color-black, 30%);
-  height: 90vh;
-  overflow-y: auto;
+#searchbar {
+  display: flex;
+  align-items: center;
+  background-color: $color-black;
+  height: 10vh;
 }
 </style>
