@@ -14,6 +14,10 @@ export default {
       return new URL(`../../assets/img-flags/${image}.svg`, import.meta.url)
         .href;
     },
+
+    calcVoteInStars() {
+      return Math.round(this.movieObject.vote_average / 2);
+    },
   },
 };
 </script>
@@ -49,7 +53,14 @@ export default {
       </div>
 
       <div v-else>{{ movieObject.original_language }}</div>
-      <div>{{ movieObject.vote_average }}</div>
+      <div>
+        <i v-for="n in calcVoteInStars()" :key="n" class="fa-solid fa-star"></i>
+        <i
+          v-for="n in 5 - calcVoteInStars()"
+          :key="n"
+          class="fa-regular fa-star"
+        ></i>
+      </div>
     </div>
   </div>
 </template>
