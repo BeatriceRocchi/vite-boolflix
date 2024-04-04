@@ -27,6 +27,21 @@ export default {
           console.log(error);
         });
     },
+
+    getAllGenre() {
+      axios
+        .get(store.apiUrlGenre, {
+          params: store.queryParamsGenre,
+        })
+        .then((result) => {
+          this.store.genresList = result.data.genres;
+          console.log(store.genresList);
+        });
+    },
+  },
+
+  mounted() {
+    this.getAllGenre();
   },
 };
 </script>

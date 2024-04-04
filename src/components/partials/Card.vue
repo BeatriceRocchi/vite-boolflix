@@ -1,9 +1,12 @@
 <script>
+import { store } from "../../data/store";
+
 export default {
   data() {
     return {
       isFlagLoaded: true,
       isImgLoaded: true,
+      store,
     };
   },
   props: {
@@ -18,12 +21,27 @@ export default {
     calcVoteInStars() {
       return Math.round(this.movieObject.vote_average / 2);
     },
+
+    matchCodeToGenre(movieGenreCodes) {
+      let movieGenres = [];
+      movieGenreCodes.forEach((genreCode) => {
+        let genreFounded = this.store.genresList.find((item) => {
+          return item.id === genreCode;
+        });
+
+        if (genreFounded) {
+          movieGenres.push(genreFounded.name);
+        }
+      });
+      return movieGenres.join(", ");
+    },
   },
 };
 </script>
 
 <template>
   <div class="col custom_card p-0">
+    <!-- Card front -->
     <div class="custom_card_front">
       <div v-if="isImgLoaded">
         <img
@@ -39,7 +57,10 @@ export default {
         <i class="fa-solid fa-film custom_movie_icon"></i>
       </div>
     </div>
+
+    <!-- Card back (on hover) -->
     <div class="custom_card_back">
+      <!-- Card back: title -->
       <h5>{{ movieObject.title || movieObject.name }}</h5>
       <h6
         v-if="
@@ -49,6 +70,8 @@ export default {
       >
         {{ movieObject.original_title || movieObject.original_name }}
       </h6>
+
+      <!-- Card back: language or flag -->
       <div v-if="isFlagLoaded">
         <img
           class="flag_box"
@@ -58,7 +81,9 @@ export default {
       </div>
 
       <div v-else>{{ movieObject.original_language }}</div>
-      <div class="py-2">
+
+      <!-- Card back: vote average -->
+      <div class="py-2 stars_box">
         <i v-for="n in calcVoteInStars()" :key="n" class="fa-solid fa-star"></i>
         <i
           v-for="n in 5 - calcVoteInStars()"
@@ -66,6 +91,15 @@ export default {
           class="fa-regular fa-star"
         ></i>
       </div>
+
+      <!-- Card back: genre -->
+      <div class="genres_box">
+        <div v-show="movieObject.genre_ids.length !== 0">
+          {{ matchCodeToGenre(movieObject.genre_ids) }}
+        </div>
+      </div>
+
+      <!-- Card back: movie description -->
       <p>{{ movieObject.overview }}</p>
     </div>
   </div>
@@ -76,8 +110,8 @@ export default {
 
 .custom_card {
   background-color: lighten($color-black, 90%);
-  width: 200px;
-  height: 280px;
+  width: 250px;
+  height: 350px;
   margin: 5px;
   overflow: hidden;
   position: relative;
@@ -92,6 +126,7 @@ export default {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center;
     }
 
     .custom_movie_icon {
@@ -109,11 +144,24 @@ export default {
     top: 0;
     left: 0;
     overflow-y: auto;
+
+    // Comando per nascondere visualizzazione scrollbar
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .flag_box {
     height: 20px;
     border-radius: 2px;
+  }
+
+  .stars_box i {
+    color: $color-star;
+  }
+
+  .genres_box div {
+    display: inline;
   }
 
   &:hover {
