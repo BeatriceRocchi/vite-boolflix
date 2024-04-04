@@ -41,10 +41,6 @@ export default {
 @import "../assets/scss/partials/variables";
 
 main {
-  background-color: lighten($color-black, 30%);
-  height: 90vh;
-  overflow-y: auto;
-
   .container_custom {
     width: 95%;
     padding: 30px 0;

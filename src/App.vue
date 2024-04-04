@@ -33,8 +33,14 @@ export default {
 
 <template>
   <Searchbar @searchMovie="getApi('movie'), getApi('tv')" />
-  <Main :searchType="'movie'" />
-  <Main :searchType="'tv'" />
+  <Main
+    v-if="store.researchType === 'movie' || store.researchType === ''"
+    :searchType="'movie'"
+  />
+  <Main
+    v-if="store.researchType === 'tv' || store.researchType === ''"
+    :searchType="'tv'"
+  />
 </template>
 
 <style lang="scss">

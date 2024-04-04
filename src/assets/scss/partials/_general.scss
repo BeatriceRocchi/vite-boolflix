@@ -3,4 +3,5 @@
 body {
   font-family: "Roboto", sans-serif;
   color: $color-white;
+  background-color: lighten($color-black, 30%);
 }

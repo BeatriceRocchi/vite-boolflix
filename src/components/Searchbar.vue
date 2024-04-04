@@ -10,26 +10,66 @@ export default {
 </script>
 
 <template>
-  <div id="searchbar" class="d-flex align-items-center justify-content-end p-3">
-    <input
-      type="text"
-      class="form-control mx-3"
-      placeholder="Cerca un titolo..."
-      aria-label="Movie name"
-      v-model="store.queryParams.query"
+  <header class="d-flex align-items-center justify-content-between p-3">
+    <!-- Logo Boolflix -->
+    <img
+      class="logo"
+      src="../assets/img/logo_Boolflix.png"
+      alt="Logo Boolflix"
     />
-    <button @click="$emit('searchMovie')" class="btn btn-danger">Cerca</button>
-  </div>
+
+    <!-- Searchbar -->
+    <div class="d-flex align-items-center h-100">
+      <!-- Searchbar: input film title -->
+      <input
+        type="text"
+        class="form-control me-3"
+        placeholder="Cerca un titolo..."
+        aria-label="Movie name"
+        v-model="store.queryParams.query"
+      />
+
+      <!-- Searchbar: select movies and/or TV series -->
+      <select
+        v-model="store.researchType"
+        class="form-select me-3"
+        aria-label="Type of search"
+      >
+        <option selected value="">All</option>
+        <option value="movie">Film</option>
+        <option value="tv">Serie TV</option>
+      </select>
+
+      <!-- Searchbar: search icon and button -->
+      <button @click="$emit('searchMovie')" class="btn btn_custom me-2">
+        Cerca
+      </button>
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+  </header>
 </template>
 
 <style lang="scss" scoped>
 @import "../assets/scss/partials/variables";
-#searchbar {
+header {
   background-color: $color-black;
   height: 10vh;
 
+  .logo {
+    height: 45px;
+  }
+
   input {
-    width: 40%;
+    width: fit-content;
+  }
+
+  .fa-magnifying-glass {
+    line-height: 100%;
+  }
+
+  .btn_custom {
+    background-color: $color-red;
+    color: $color-white;
   }
 }
 </style>
