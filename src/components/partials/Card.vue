@@ -41,7 +41,12 @@ export default {
     </div>
     <div class="custom_card_back">
       <h5>{{ movieObject.title || movieObject.name }}</h5>
-      <h6>
+      <h6
+        v-if="
+          movieObject.title !== movieObject.original_title ||
+          movieObject.name !== movieObject.original_name
+        "
+      >
         {{ movieObject.original_title || movieObject.original_name }}
       </h6>
       <div v-if="isFlagLoaded">
@@ -53,7 +58,7 @@ export default {
       </div>
 
       <div v-else>{{ movieObject.original_language }}</div>
-      <div>
+      <div class="py-2">
         <i v-for="n in calcVoteInStars()" :key="n" class="fa-solid fa-star"></i>
         <i
           v-for="n in 5 - calcVoteInStars()"
@@ -61,6 +66,7 @@ export default {
           class="fa-regular fa-star"
         ></i>
       </div>
+      <p>{{ movieObject.overview }}</p>
     </div>
   </div>
 </template>
@@ -102,6 +108,7 @@ export default {
     padding: 10px;
     top: 0;
     left: 0;
+    overflow-y: auto;
   }
 
   .flag_box {
