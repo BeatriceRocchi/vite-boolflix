@@ -23,7 +23,7 @@ export default {
 </script>
 
 <template>
-  <div class="custom_card">
+  <div class="col custom_card p-0">
     <div class="custom_card_front">
       <div v-if="isImgLoaded">
         <img
@@ -72,17 +72,19 @@ export default {
   background-color: lighten($color-black, 90%);
   width: 200px;
   height: 280px;
-  margin: 15px;
+  margin: 5px;
   overflow: hidden;
-  border-radius: 10px;
   position: relative;
+  box-shadow: 0 0 10px rgba($color-black, 90%);
 
   &_front {
     height: 100%;
+    width: 100%;
+    padding: 0;
 
     img {
       width: 100%;
-      height: auto;
+      height: 100%;
       object-fit: cover;
     }
 
@@ -97,6 +99,7 @@ export default {
     position: absolute;
     width: 100%;
     height: 100%;
+    padding: 10px;
     top: 0;
     left: 0;
   }
@@ -108,10 +111,22 @@ export default {
 
   &:hover {
     .custom_card_back {
-      cursor: pointer;
+      animation: 1s slidein ease-out;
       display: block;
-      background-color: rgba($color-black, 0.5);
+      background-color: rgba($color-black, 0.6);
     }
+  }
+}
+
+@keyframes slidein {
+  from {
+    margin-top: 100%;
+    width: 100%;
+  }
+
+  to {
+    margin-top: 0%;
+    width: 100%;
   }
 }
 </style>

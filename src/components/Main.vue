@@ -26,7 +26,7 @@ export default {
   <main>
     <div class="container container_custom">
       <h3 class="text-capitalize">{{ title }}</h3>
-      <div class="card_wrapper d-flex flex-wrap justify-content-around">
+      <div class="row row-cols-5 justify-content-center">
         <Card
           v-for="movie in store[searchType]"
           :key="movie.id"
@@ -42,7 +42,6 @@ export default {
 
 main {
   .container_custom {
-    width: 95%;
     padding: 30px 0;
   }
 }
