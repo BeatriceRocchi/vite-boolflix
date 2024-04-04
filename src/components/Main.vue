@@ -3,6 +3,9 @@ import { store } from "../data/store";
 import Card from "./partials/Card.vue";
 
 export default {
+  props: {
+    searchType: String,
+  },
   components: {
     Card,
   },
@@ -11,27 +14,23 @@ export default {
       store,
     };
   },
+  computed: {
+    title() {
+      return this.searchType === "movie" ? "film" : "serie TV";
+    },
+  },
 };
 </script>
 
 <template>
   <main>
     <div class="container container_custom">
-      <h3>Film</h3>
+      <h3 class="text-capitalize">{{ title }}</h3>
       <div class="card_wrapper d-flex flex-wrap justify-content-around">
         <Card
-          v-for="movie in store.moviesList"
+          v-for="movie in store[searchType]"
           :key="movie.id"
           :movieObject="movie"
-        />
-      </div>
-
-      <h3>Serie TV</h3>
-      <div class="card_wrapper d-flex flex-wrap justify-content-around">
-        <Card
-          v-for="serie in store.seriesTVList"
-          :key="serie.id"
-          :movieObject="serie"
         />
       </div>
     </div>

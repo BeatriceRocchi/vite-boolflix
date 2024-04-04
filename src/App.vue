@@ -15,40 +15,13 @@ export default {
     };
   },
   methods: {
-    getApis() {
-      // API on movie
+    getApi(type) {
       axios
-        .get(this.store.apiUrlMovie, {
-          params: {
-            api_key: this.store.apiKey,
-            query: this.store.movieToSearch,
-          },
+        .get(store.apiUrl + type, {
+          params: store.queryParams,
         })
         .then((result) => {
-          this.store.moviesList = result.data.results;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      // API on TV series
-      axios
-        .get(this.store.apiUrlTV, {
-          params: {
-            api_key: this.store.apiKey,
-            query: this.store.movieToSearch,
-          },
-        })
-        .then((result) => {
-          let seriesListTemp = [];
-          seriesListTemp = result.data.results;
-          this.store.seriesTVList = seriesListTemp.map(
-            ({ name: title, original_name: original_title, ...rest }) => ({
-              title,
-              original_title,
-              ...rest,
-            })
-          );
+          this.store[type] = result.data.results;
         })
         .catch((error) => {
           console.log(error);
@@ -59,8 +32,9 @@ export default {
 </script>
 
 <template>
-  <Searchbar @searchMovie="getApis" />
-  <Main />
+  <Searchbar @searchMovie="getApi('movie'), getApi('tv')" />
+  <Main :searchType="'movie'" />
+  <Main :searchType="'tv'" />
 </template>
 
 <style lang="scss">

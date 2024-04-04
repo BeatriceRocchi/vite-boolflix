@@ -40,9 +40,9 @@ export default {
       </div>
     </div>
     <div class="custom_card_back">
-      <h5>{{ movieObject.title }}</h5>
+      <h5>{{ movieObject.title || movieObject.name }}</h5>
       <h6>
-        {{ movieObject.original_title }}
+        {{ movieObject.original_title || movieObject.original_name }}
       </h6>
       <div v-if="isFlagLoaded">
         <img

@@ -16,7 +16,7 @@ export default {
       class="form-control mx-3"
       placeholder="Cerca un titolo..."
       aria-label="Movie name"
-      v-model="store.movieToSearch"
+      v-model="store.queryParams.query"
     />
     <button @click="$emit('searchMovie')" class="btn btn-danger">Cerca</button>
   </div>
