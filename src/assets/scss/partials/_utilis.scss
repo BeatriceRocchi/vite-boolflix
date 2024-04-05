@@ -1,0 +1,8 @@
+.btn_custom {
+  background-color: $color-red;
+  color: $color-white;
+
+  &:hover {
+    background-color: darken($color-red, 10%);
+  }
+}

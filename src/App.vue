@@ -35,7 +35,6 @@ export default {
         })
         .then((result) => {
           this.store.genresList = result.data.genres;
-          console.log(store.genresList);
         });
     },
   },

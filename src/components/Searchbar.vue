@@ -66,10 +66,5 @@ header {
   .fa-magnifying-glass {
     line-height: 100%;
   }
-
-  .btn_custom {
-    background-color: $color-red;
-    color: $color-white;
-  }
 }
 </style>

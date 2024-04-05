@@ -1,7 +1,12 @@
 <script>
+import axios from "axios";
 import { store } from "../../data/store";
+import InfoBox from "./InfoBox.vue";
 
 export default {
+  components: {
+    InfoBox,
+  },
   data() {
     return {
       isFlagLoaded: true,
@@ -35,6 +40,17 @@ export default {
       });
       return movieGenres.join(", ");
     },
+
+    getMainActors(id) {
+      store.queryParamsCredits.movie_id = id;
+      axios
+        .get(store.apiUrlCredits, {
+          params: store.queryParamsCredits,
+        })
+        .then((result) => {
+          console.log(result.data.cast);
+        });
+    },
   },
 };
 </script>
@@ -61,8 +77,9 @@ export default {
     <!-- Card back (on hover) -->
     <div class="custom_card_back">
       <!-- Card back: title -->
-      <h5>{{ movieObject.title || movieObject.name }}</h5>
+      <h5 class="text-center">{{ movieObject.title || movieObject.name }}</h5>
       <h6
+        class="text-center"
         v-if="
           movieObject.title !== movieObject.original_title ||
           movieObject.name !== movieObject.original_name
@@ -72,7 +89,7 @@ export default {
       </h6>
 
       <!-- Card back: language or flag -->
-      <div v-if="isFlagLoaded">
+      <div class="text-center" v-if="isFlagLoaded">
         <img
           class="flag_box"
           :src="getImagePath(movieObject.original_language)"
@@ -93,7 +110,7 @@ export default {
       </div>
 
       <!-- Card back: genre -->
-      <div class="genres_box">
+      <div class="genres_box py-2">
         <div v-show="movieObject.genre_ids.length !== 0">
           {{ matchCodeToGenre(movieObject.genre_ids) }}
         </div>
@@ -101,6 +118,14 @@ export default {
 
       <!-- Card back: movie description -->
       <p>{{ movieObject.overview }}</p>
+
+      <!-- Card back: more info -->
+      <button
+        class="btn btn_custom btn_info"
+        @click="getMainActors(movieObject.id)"
+      >
+        Info <info-box class="info_box" />
+      </button>
     </div>
   </div>
 </template>
@@ -149,19 +174,40 @@ export default {
     &::-webkit-scrollbar {
       display: none;
     }
-  }
 
-  .flag_box {
-    height: 20px;
-    border-radius: 2px;
-  }
+    .flag_box {
+      height: 20px;
+      border-radius: 2px;
+    }
 
-  .stars_box i {
-    color: $color-star;
-  }
+    .stars_box i {
+      color: $color-star;
+    }
 
-  .genres_box div {
-    display: inline;
+    .genres_box div {
+      display: inline;
+      font-style: italic;
+      font-size: 0.8rem;
+    }
+
+    .btn_info {
+      font-size: 0.8rem;
+
+      &:focus .info_box {
+        background-color: rgba($color-black, 0.5);
+        z-index: 999;
+        display: block;
+      }
+    }
+
+    .info_box {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
   }
 
   &:hover {
