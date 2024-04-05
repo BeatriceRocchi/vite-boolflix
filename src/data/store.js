@@ -8,6 +8,7 @@ export const store = reactive({
   queryParams: {
     api_key: "b6cd8631f8965ad87842781acddfdcc0",
     query: "",
+    page: 1,
   },
 
   queryParamsGenre: {
@@ -27,14 +28,16 @@ export const store = reactive({
     itemList: [],
     genresList: [],
     itemFiltered: [],
-    // genresListIds: [],
+    currentPage: "",
+    totalPages: "",
   },
 
   tv: {
     itemList: [],
     genresList: [],
     itemFiltered: [],
-    // genresListIds: [],
+    currentPage: "",
+    totalPages: "",
   },
 
   mainActors: [],

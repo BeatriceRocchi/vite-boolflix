@@ -18,11 +18,17 @@ export default {
     getApi(type) {
       this.store[type].itemList = [];
       this.store[type].itemFiltered = [];
+      // this.store[type].totalPages = "";
+      this.store.queryParams.page = this.store[type].currentPage;
+      // console.log(store[type].queryParams.page);
+
       axios
         .get(store.apiUrl + type, {
           params: store.queryParams,
         })
         .then((result) => {
+          this.store[type].currentPage = result.data.page;
+          this.store[type].totalPages = result.data.total_pages;
           this.store[type].itemList = result.data.results;
 
           this.filterGenre(this.store[type].itemList, type);
@@ -65,6 +71,7 @@ export default {
 <template>
   <Searchbar @searchMovie="getApi('movie'), getApi('tv')" />
   <Main
+    @changePage="getApi('movie')"
     v-if="store.researchType === 'movie' || store.researchType === ''"
     :searchType="'movie'"
   />

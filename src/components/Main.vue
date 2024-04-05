@@ -19,19 +19,44 @@ export default {
       return this.searchType === "movie" ? "film" : "serie TV";
     },
   },
+  methods: {
+    nextPage(isNext, type) {
+      isNext ? store[type].currentPage++ : store[type].currentPage--;
+      this.$emit("changePage(type)");
+    },
+  },
 };
 </script>
 
 <template>
   <main>
     <div class="container container_custom">
-      <h3 class="text-capitalize">{{ title }}</h3>
+      <h3 v-if="store[searchType].itemList.length > 0" class="text-capitalize">
+        {{ title }}
+      </h3>
       <div class="row row-cols-5 justify-content-center">
         <Card
           v-for="movie in store[searchType].itemList"
           :key="movie.id"
           :movieObject="movie"
         />
+      </div>
+
+      <div class="d-flex justify-content-center align-items-center">
+        <i
+          v-if="store[searchType].currentPage > 1"
+          @click="nextPage(false, searchType)"
+          class="fa-solid fa-angles-left"
+        ></i>
+        <div class="m-3">
+          Pagina {{ store[searchType].currentPage }} di
+          {{ store[searchType].totalPages }}
+        </div>
+        <i
+          v-if="store[searchType].currentPage < store[searchType].totalPages"
+          @click="nextPage(true, searchType)"
+          class="fa-solid fa-angles-right"
+        ></i>
       </div>
     </div>
   </main>
