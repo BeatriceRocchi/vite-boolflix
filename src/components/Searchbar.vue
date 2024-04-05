@@ -40,6 +40,32 @@ export default {
         <option value="tv">Serie TV</option>
       </select>
 
+      <!-- Searchbar: select genre -->
+      <select
+        v-model="store.researchGenre"
+        class="form-select me-3"
+        aria-label="Type of genre"
+      >
+        <option selected value="">All</option>
+
+        <option
+          v-show="store.researchType === 'movie' || store.researchType === ''"
+          v-for="genre in store.movie.genresList"
+          :key="genre.id"
+          :value="genre.id"
+        >
+          {{ genre.name }}
+        </option>
+        <option
+          v-show="store.researchType === 'tv' || store.researchType === ''"
+          v-for="genre in store.tv.genresList"
+          :key="genre.id"
+          :value="genre.id"
+        >
+          {{ genre.name }}
+        </option>
+      </select>
+
       <!-- Searchbar: search icon and button -->
       <button @click="$emit('searchMovie')" class="btn btn_custom me-2">
         Cerca

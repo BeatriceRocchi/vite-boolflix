@@ -28,7 +28,7 @@ export default {
       <h3 class="text-capitalize">{{ title }}</h3>
       <div class="row row-cols-5 justify-content-center">
         <Card
-          v-for="movie in store[searchType]"
+          v-for="movie in store[searchType].itemList"
           :key="movie.id"
           :movieObject="movie"
         />

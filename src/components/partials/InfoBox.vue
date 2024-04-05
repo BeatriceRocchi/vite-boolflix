@@ -39,10 +39,11 @@ export default {
 @import "../../assets/scss/partials/variables";
 
 .text_box {
-  color: $color-black;
-  background-color: rgba($color-white, 0.9);
+  color: $color-white;
+  background-color: lighten($color-black, 20%);
   padding: 20px;
   box-shadow: 0 0 20px 5px $color-black;
+  position: relative;
 
   .actor_box {
     width: fit-content;

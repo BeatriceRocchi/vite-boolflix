@@ -2,7 +2,7 @@ import { reactive } from "vue";
 
 export const store = reactive({
   apiUrl: "https://api.themoviedb.org/3/search/",
-  apiUrlGenre: "https://api.themoviedb.org/3/genre/movie/list",
+  apiUrlGenre: "https://api.themoviedb.org/3/genre/",
   apiUrlCredits: "https://api.themoviedb.org/3/movie/",
 
   queryParams: {
@@ -21,9 +21,22 @@ export const store = reactive({
   },
 
   researchType: "",
+  researchGenre: "",
 
-  movie: [],
-  tv: [],
-  genresList: [],
+  movie: {
+    itemList: [],
+    genresList: [],
+    itemFiltered: [],
+    // genresListIds: [],
+  },
+
+  tv: {
+    itemList: [],
+    genresList: [],
+    itemFiltered: [],
+    // genresListIds: [],
+  },
+
   mainActors: [],
+  listFiltered: [],
 });

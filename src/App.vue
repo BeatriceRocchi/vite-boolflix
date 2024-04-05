@@ -16,31 +16,48 @@ export default {
   },
   methods: {
     getApi(type) {
+      this.store[type].itemList = [];
+      this.store[type].itemFiltered = [];
       axios
         .get(store.apiUrl + type, {
           params: store.queryParams,
         })
         .then((result) => {
-          this.store[type] = result.data.results;
+          this.store[type].itemList = result.data.results;
+
+          this.filterGenre(this.store[type].itemList, type);
+
+          if (store.researchGenre !== "") {
+            this.store[type].itemList = store[type].itemFiltered;
+          }
         })
         .catch((error) => {
           console.log(error);
         });
     },
 
-    getAllGenre() {
+    filterGenre(fullList, type) {
+      fullList.forEach((item) => {
+        if (item.genre_ids.includes(store.researchGenre)) {
+          store[type].itemFiltered.push(item);
+        }
+      });
+    },
+
+    getAllGenre(type) {
       axios
-        .get(store.apiUrlGenre, {
+        .get(store.apiUrlGenre + type + "/list", {
           params: store.queryParamsGenre,
         })
         .then((result) => {
-          this.store.genresList = result.data.genres;
+          this.store[type].genresList = result.data.genres;
         });
     },
   },
 
   mounted() {
-    this.getAllGenre();
+    this.getAllGenre("movie");
+    this.getAllGenre("tv");
   },
 };
 </script>

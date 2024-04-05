@@ -30,12 +30,20 @@ export default {
     matchCodeToGenre(movieGenreCodes) {
       let movieGenres = [];
       movieGenreCodes.forEach((genreCode) => {
-        let genreFounded = this.store.genresList.find((item) => {
+        let genreMovieFounded = this.store.movie.genresList.find((item) => {
           return item.id === genreCode;
         });
 
-        if (genreFounded) {
-          movieGenres.push(genreFounded.name);
+        if (genreMovieFounded) {
+          movieGenres.push(genreMovieFounded.name);
+        }
+
+        let genreTVFounded = this.store.tv.genresList.find((item) => {
+          return item.id === genreCode;
+        });
+
+        if (genreTVFounded && !movieGenres.includes(genreTVFounded.name)) {
+          movieGenres.push(genreTVFounded.name);
         }
       });
       return movieGenres.join(", ");
@@ -54,7 +62,6 @@ export default {
               if (result.data.cast[i])
                 store.mainActors[i] = result.data.cast[i];
             }
-          console.log(store.mainActors);
         })
         .catch((error) => {
           console.log(error);
