@@ -42,13 +42,22 @@ export default {
     },
 
     getMainActors(id) {
+      store.mainActors = [];
       store.queryParamsCredits.movie_id = id;
       axios
-        .get(store.apiUrlCredits, {
+        .get(store.apiUrlCredits + id + "/credits", {
           params: store.queryParamsCredits,
         })
         .then((result) => {
-          console.log(result.data.cast);
+          if (result.data.cast.length > 0)
+            for (let i = 0; i < 5; i++) {
+              if (result.data.cast[i])
+                store.mainActors[i] = result.data.cast[i];
+            }
+          console.log(store.mainActors);
+        })
+        .catch((error) => {
+          console.log(error);
         });
     },
   },
@@ -124,7 +133,10 @@ export default {
         class="btn btn_custom btn_info"
         @click="getMainActors(movieObject.id)"
       >
-        Info <info-box class="info_box" />
+        Info
+        <div class="info_box">
+          <info-box />
+        </div>
       </button>
     </div>
   </div>
@@ -193,20 +205,20 @@ export default {
     .btn_info {
       font-size: 0.8rem;
 
+      .info_box {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
       &:focus .info_box {
         background-color: rgba($color-black, 0.5);
         z-index: 999;
         display: block;
       }
-    }
-
-    .info_box {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
     }
   }
 
