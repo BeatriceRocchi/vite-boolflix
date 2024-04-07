@@ -1,13 +1,14 @@
 <script>
 import Searchbar from "./components/Searchbar.vue";
-import Main from "./components/Main.vue";
+import CardContainer from "./components/CardContainer.vue";
 import { store } from "./data/store";
 import axios from "axios";
 
 export default {
   components: {
     Searchbar,
-    Main,
+
+    CardContainer,
   },
   data() {
     return {
@@ -15,12 +16,25 @@ export default {
     };
   },
   methods: {
+    getPopularMovie() {
+      axios
+        .get(store.apiUrlPopolarMovie, {
+          params: store.queryParamsPopular,
+        })
+        .then((result) => {
+          store.popularMoviesList = result.data.results;
+        });
+    },
+
+    reset(type) {
+      this.store[type].currentPage = 1;
+    },
+
     getApi(type) {
       this.store[type].itemList = [];
       this.store[type].itemFiltered = [];
-      // this.store[type].totalPages = "";
+      this.store.popularMoviesList = [];
       this.store.queryParams.page = this.store[type].currentPage;
-      // console.log(store[type].queryParams.page);
 
       axios
         .get(store.apiUrl + type, {
@@ -30,24 +44,10 @@ export default {
           this.store[type].currentPage = result.data.page;
           this.store[type].totalPages = result.data.total_pages;
           this.store[type].itemList = result.data.results;
-
-          this.filterGenre(this.store[type].itemList, type);
-
-          if (store.researchGenre !== "") {
-            this.store[type].itemList = store[type].itemFiltered;
-          }
         })
         .catch((error) => {
           console.log(error);
         });
-    },
-
-    filterGenre(fullList, type) {
-      fullList.forEach((item) => {
-        if (item.genre_ids.includes(store.researchGenre)) {
-          store[type].itemFiltered.push(item);
-        }
-      });
     },
 
     getAllGenre(type) {
@@ -64,21 +64,33 @@ export default {
   mounted() {
     this.getAllGenre("movie");
     this.getAllGenre("tv");
+    this.getPopularMovie();
   },
 };
 </script>
 
 <template>
-  <Searchbar @searchMovie="getApi('movie'), getApi('tv')" />
-  <Main
-    @changePage="getApi('movie')"
-    v-if="store.researchType === 'movie' || store.researchType === ''"
+  <Searchbar
+    @searchMovie="reset('movie'), reset('tv'), getApi('movie'), getApi('tv')"
+  />
+
+  <CardContainer
+    v-if="store.popularMoviesList.length > 0"
     :searchType="'movie'"
   />
-  <Main
-    v-if="store.researchType === 'tv' || store.researchType === ''"
-    :searchType="'tv'"
-  />
+
+  <div v-else>
+    <CardContainer
+      @changePage="getApi('movie')"
+      v-if="store.researchType === 'movie' || store.researchType === ''"
+      :searchType="'movie'"
+    />
+    <CardContainer
+      @changePage="getApi('tv')"
+      v-if="store.researchType === 'tv' || store.researchType === ''"
+      :searchType="'tv'"
+    />
+  </div>
 </template>
 
 <style lang="scss">

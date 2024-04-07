@@ -140,7 +140,7 @@ export default {
         class="btn btn_custom btn_info"
         @click="getMainActors(movieObject.id)"
       >
-        Info
+        More info
         <div class="info_box">
           <info-box />
         </div>

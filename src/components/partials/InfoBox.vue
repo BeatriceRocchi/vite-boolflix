@@ -14,7 +14,7 @@ export default {
   <div
     class="info_wrapper h-100 d-flex justify-content-center align-items-center"
   >
-    <div class="text_box text-start">
+    <div v-if="store.mainActors.length > 0" class="text_box text-start">
       <h5>Cast</h5>
       <div class="d-flex justify-content-center my-4">
         <div

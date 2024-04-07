@@ -22,7 +22,7 @@ export default {
   methods: {
     nextPage(isNext, type) {
       isNext ? store[type].currentPage++ : store[type].currentPage--;
-      this.$emit("changePage(type)");
+      this.$emit("changePage");
     },
   },
 };
@@ -31,6 +31,19 @@ export default {
 <template>
   <main>
     <div class="container container_custom">
+      <!-- Popular movie section -->
+      <div v-if="store[searchType].itemList.length === 0">
+        <h3 class="text-capitalize">Most popular</h3>
+        <div class="row row-cols-5 justify-content-center">
+          <Card
+            v-for="popularMovie in store.popularMoviesList"
+            :key="popularMovie.id"
+            :movieObject="popularMovie"
+          />
+        </div>
+      </div>
+
+      <!-- Searched movie/serie TV section -->
       <h3 v-if="store[searchType].itemList.length > 0" class="text-capitalize">
         {{ title }}
       </h3>
@@ -42,7 +55,11 @@ export default {
         />
       </div>
 
-      <div class="d-flex justify-content-center align-items-center">
+      <!-- Paginazaione -->
+      <div
+        v-if="store[searchType].itemList.length > 0"
+        class="d-flex justify-content-center align-items-center"
+      >
         <i
           v-if="store[searchType].currentPage > 1"
           @click="nextPage(false, searchType)"
