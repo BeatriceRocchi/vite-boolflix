@@ -72,7 +72,13 @@ export default {
 </script>
 
 <template>
-  <div class="col custom_card p-0">
+  <div
+    v-if="
+      movieObject.genre_ids.includes(store.researchGenre) ||
+      store.researchGenre === ''
+    "
+    class="col custom_card p-0"
+  >
     <!-- Card front -->
     <div class="custom_card_front">
       <div v-if="isImgLoaded">
